@@ -23,20 +23,24 @@
                 consultaNear(palavra)
                 consultaWord(palavra)
             }
+            
             function consultaWord(palavra) {
                 fetch(`https://api.dicionario-aberto.net/word/${palavra}`, {
                     method : "GET",
                 })
                 .then( (resp) => resp.json() )
                 .then( (data) => {
-                    console.log(data)
-                    var conteudo = '<strong>Definição:</strong><br>'
+                    parseWordResponse(data)                    
+                })
+                .catch ( (err) => console.log(err))
+            }
+
+            function parseWordResponse(data) {
+                var conteudo = '<strong>Definição:</strong><br>'
                     data.map ( (def) => (
                         conteudo += def.xml + '<br><br>'
                     ))
                     document.getElementById("wordResp").innerHTML = conteudo
-                })
-                .catch ( (err) => console.log(err))
             }
 
             function consultaNear(palavra) {
@@ -45,13 +49,17 @@
                 })
                 .then( (resp) => resp.json() )
                 .then( (data) => {
-                    var conteudo = '<strong>Palavras próximas:</strong> '
-                    data.map( (palavra) => (
-                        conteudo += palavra + ", "
-                    ))
-                    document.getElementById("nearResp").innerHTML = conteudo
+                    parseNearResponse(data)
                 })
                 .catch ( (err) => console.log(err))
+            }
+
+            function parseNearResponse(data) {
+                var conteudo = '<strong>Palavras próximas:</strong> '
+                data.map( (palavra) => (
+                    conteudo += palavra + ", "
+                ))
+                document.getElementById("nearResp").innerHTML = conteudo
             }
 
             function handleLimparOnClick() {
