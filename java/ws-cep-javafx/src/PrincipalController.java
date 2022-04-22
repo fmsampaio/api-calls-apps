@@ -27,30 +27,13 @@ public class PrincipalController implements Initializable {
         if(!this.cepTextField.getText().equals("")) {
             try {
                 AcessoAPICEP acesso = new AcessoAPICEP(this.cepTextField.getText());
-                this.dadosTextArea.setText(geraDadosCEP(acesso));
+                this.dadosTextArea.setText(acesso.toString());
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    private String geraDadosCEP(AcessoAPICEP acesso) {
-        String retorno = "";
-
-        if(acesso.getStatus() == 200) {
-            retorno += "CEP: " + acesso.getCep() + "\n";
-            retorno += "Endereço: " + acesso.getEndereco() + "\n";
-            retorno += "Bairro: " + acesso.getBairro() + "\n";
-            retorno += "Município: " + acesso.getCidade() + "\n";
-            retorno += "Estado: " + acesso.getEstado() + "\n";
-        }
-        else {
-            retorno += acesso.getMensagem();
-        }
-
-        return retorno;
     }
 
     @FXML

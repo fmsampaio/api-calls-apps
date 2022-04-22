@@ -82,4 +82,22 @@ public class AcessoAPICEP {
     public int getStatus() {
         return status;
     }
+
+    @Override
+    public String toString() {
+        String retorno = "";
+
+        if(this.getStatus() == 200) {
+            retorno += "CEP: " + this.getCep() + "\n";
+            retorno += "Endereço: " + this.getEndereco() + "\n";
+            retorno += "Bairro: " + this.getBairro() + "\n";
+            retorno += "Município: " + this.getCidade() + "\n";
+            retorno += "Estado: " + this.getEstado() + "\n";
+        }
+        else {
+            retorno += this.getMensagem();
+        }
+
+        return retorno;
+    }
 }
