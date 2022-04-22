@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Consulta API Dicionário Aberto</title>
+
+    </head>
+    
+    <body>
+
+        <h1>Consulta API Dicionário Aberto</h1>
+        <input type="text" id="inputPalavra" placeholder="Digite aqui uma palavra">
+        <button onClick="handleOnClick()">Consultar</button>
+        <button onClick="handleLimparOnClick()">Limpar</button>
+        <p id="nearResp"></p>
+        <p id="wordResp"></p>
+
+        <script>
+            function handleOnClick() {
+                const palavra = document.getElementById("inputPalavra").value
+                consultaNear(palavra)
+                consultaWord(palavra)
+            }
+            function consultaWord(palavra) {
+                fetch(`https://api.dicionario-aberto.net/word/${palavra}`, {
+                    method : "GET",
+                })
+                .then( (resp) => resp.json() )
+                .then( (data) => {
+                    console.log(data)
+                    var conteudo = '<strong>Definição:</strong><br>'
+                    data.map ( (def) => (
+                        conteudo += def.xml + '<br><br>'
+                    ))
+                    document.getElementById("wordResp").innerHTML = conteudo
+                })
+                .catch ( (err) => console.log(err))
+            }
+
+            function consultaNear(palavra) {
+                fetch(`https://api.dicionario-aberto.net/near/${palavra}`, {
+                    method : "GET",
+                })
+                .then( (resp) => resp.json() )
+                .then( (data) => {
+                    var conteudo = '<strong>Palavras próximas:</strong> '
+                    data.map( (palavra) => (
+                        conteudo += palavra + ", "
+                    ))
+                    document.getElementById("nearResp").innerHTML = conteudo
+                })
+                .catch ( (err) => console.log(err))
+            }
+
+            function handleLimparOnClick() {
+                document.getElementById("inputPalavra").value = ''
+                document.getElementById("nearResp").innerHTML = ''
+                document.getElementById("wordResp").innerHTML = ''
+            }
+        </script>
+
+    </body> 
+</html>
