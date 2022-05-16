@@ -20,6 +20,9 @@ class Ui(QtWidgets.QDialog):
 
     def handleConsultaButton(self):
         inputCep = self.cepTextEdit.toPlainText()
+
+        if inputCep == '':
+            return
         
         reqURL = f'https://ws.apicep.com/cep/{inputCep}.json'
         print(reqURL)
