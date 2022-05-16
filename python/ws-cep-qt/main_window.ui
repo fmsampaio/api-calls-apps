@@ -55,7 +55,7 @@
     <string>Consultar</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="limparButtonpushButton">
+  <widget class="QPushButton" name="limparButton">
    <property name="geometry">
     <rect>
      <x>290</x>
