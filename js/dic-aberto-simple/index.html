@@ -13,13 +13,21 @@
             <input type="text" id="inputPalavra" placeholder="Digite aqui uma palavra">
             <button onClick="handleOnClick()">Consultar</button>
             <button onClick="handleLimparOnClick()">Limpar</button>
+            <div style="margin-top:15px"id="loadingDiv"></div>
             <p id="nearResp"></p>
             <p id="wordResp"></p>
         </div>
 
         <script>
+
+            //
             function handleOnClick() {
+                document.getElementById('loadingDiv').innerHTML = '<img id="loadingImg" style="width:30px" src="https://i.gifer.com/ZKZg.gif">';
                 const palavra = document.getElementById("inputPalavra").value
+                
+                document.getElementById("nearResp").innerHTML = ''
+                document.getElementById("wordResp").innerHTML = ''
+
                 consultaNear(palavra)
                 consultaWord(palavra)
             }
@@ -36,6 +44,7 @@
             }
 
             function parseWordResponse(data) {
+                document.getElementById('loadingDiv').innerHTML = '';
                 var conteudo = '<strong>Definição:</strong><br>'
                     data.map ( (def) => (
                         conteudo += def.xml + '<br><br>'
@@ -55,6 +64,8 @@
             }
 
             function parseNearResponse(data) {
+                document.getElementById('loadingDiv').innerHTML = '';
+                
                 var conteudo = '<strong>Palavras próximas:</strong> '
                 data.map( (palavra) => (
                     conteudo += palavra + ", "
