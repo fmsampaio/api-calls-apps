@@ -23,13 +23,12 @@
             //
             function handleOnClick() {
                 document.getElementById('loadingDiv').innerHTML = '<img id="loadingImg" style="width:30px" src="https://i.gifer.com/ZKZg.gif">';
-                const palavra = document.getElementById("inputPalavra").value
+                const palavra = document.getElementById("inputPalavra").value;
                 
-                document.getElementById("nearResp").innerHTML = ''
-                document.getElementById("wordResp").innerHTML = ''
+                clearResponses();
 
-                consultaNear(palavra)
-                consultaWord(palavra)
+                consultaNear(palavra);
+                consultaWord(palavra);
             }
             
             function consultaWord(palavra) {
@@ -38,18 +37,18 @@
                 })
                 .then( (resp) => resp.json() )
                 .then( (data) => {
-                    parseWordResponse(data)                    
+                    parseWordResponse(data);             
                 })
-                .catch ( (err) => console.log(err))
+                .catch ( (err) => console.log(err));
             }
 
             function parseWordResponse(data) {
                 document.getElementById('loadingDiv').innerHTML = '';
-                var conteudo = '<strong>Definição:</strong><br>'
-                    data.map ( (def) => (
-                        conteudo += def.xml + '<br><br>'
-                    ))
-                    document.getElementById("wordResp").innerHTML = conteudo
+                var conteudo = '<strong>Definição:</strong><br>';
+                    data.map ( (def) => {
+                        conteudo += def.xml + '<br><br>';
+                    })
+                    document.getElementById("wordResp").innerHTML = conteudo;
             }
 
             function consultaNear(palavra) {
@@ -58,23 +57,31 @@
                 })
                 .then( (resp) => resp.json() )
                 .then( (data) => {
-                    parseNearResponse(data)
+                    parseNearResponse(data);
                 })
-                .catch ( (err) => console.log(err))
+                .catch ( (err) => console.log(err));
             }
 
             function parseNearResponse(data) {
                 document.getElementById('loadingDiv').innerHTML = '';
                 
-                var conteudo = '<strong>Palavras próximas:</strong> '
-                data.map( (palavra) => (
-                    conteudo += palavra + ", "
-                ))
-                document.getElementById("nearResp").innerHTML = conteudo
+                var conteudo = '<strong>Palavras próximas:</strong> ';
+                data.map( (palavra) => {
+                    conteudo += palavra + ", ";
+                })
+                document.getElementById("nearResp").innerHTML = conteudo;
             }
 
             function handleLimparOnClick() {
-                document.getElementById("inputPalavra").value = ''
+                clearInput();
+                clearResponses();
+            }
+
+            function clearInput() {
+                document.getElementById("inputPalavra").value = '';
+            }
+
+            function clearResponses() {
                 document.getElementById("nearResp").innerHTML = ''
                 document.getElementById("wordResp").innerHTML = ''
             }
