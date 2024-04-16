@@ -1,5 +1,6 @@
 from PyQt5 import  uic
 import PyQt5.QtWidgets as QtWidgets
+import os
 
 import sys
 import requests
@@ -8,7 +9,7 @@ import json
 class Ui(QtWidgets.QDialog):
     def __init__(self):
         super(Ui, self).__init__()
-        uic.loadUi('/home/felipe/Projetos/api-calls-apps/python/ws-cep-qt/main_window.ui', self)
+        uic.loadUi(os.path.join(os.path.dirname('.'), 'main_window.ui'), self)
         self.show()
 
         self.consultaButton.clicked.connect(self.handleConsultaButton)
