@@ -4,8 +4,6 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-
 public class AcessoAPICEP {
     private String cep, estado, cidade, bairro, endereco;
     private String conteudo;
@@ -22,25 +20,10 @@ public class AcessoAPICEP {
     }
 
     public void trataJSON() throws JSONException {
-        if (codigoStatus == 400) {
-            //System.out.println("CEP Inválido!");
-            this.isCepInvalido = true;
-        } else { //codigoStatus == 200
-            JSONObject jsonObj = new JSONObject(this.conteudo);
-            if (jsonObj.has("erro")) {
-                //System.out.println("CEP inexistente!");
-                this.isCepInexistente = true;
-            } else {
-                this.cep = jsonObj.getString("cep");
-                this.estado = jsonObj.getString("uf");
-                this.cidade = jsonObj.getString("localidade");
-                this.bairro = jsonObj.getString("bairro");
-                this.endereco = jsonObj.getString("logradouro");
-            }
-        }
+
     }
 
-    public void acessaAPI(String cep) throws UnirestException {
+    public void acessaAPIRotaCEP(String cep) throws UnirestException {
         String url = BASE_CEP_URL.replace("xxxx", cep);
 
         HttpResponse<String> response = Unirest.get(url)
