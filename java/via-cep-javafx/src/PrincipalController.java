@@ -1,3 +1,4 @@
+import com.mashape.unirest.http.exceptions.UnirestException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,9 +27,11 @@ public class PrincipalController implements Initializable {
     public void trataConsultarButton(ActionEvent event) {
         if(!this.cepTextField.getText().equals("")) {
             try {
-                AcessoAPICEP acesso = new AcessoAPICEP(this.cepTextField.getText());
+                AcessoAPICEP acesso = new AcessoAPICEP();
+                acesso.acessaAPI(this.cepTextField.getText());
+                acesso.trataJSON();
                 this.dadosTextArea.setText(acesso.toString());
-            } catch (IOException e) {
+            } catch (UnirestException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
