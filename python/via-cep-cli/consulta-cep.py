@@ -12,7 +12,7 @@ content = response.content
 statusCode = response.status_code
 
 if statusCode == 200:
-    contentJson = json.loads(response.content)
+    contentJson = json.loads(content)
 
     if b'erro' in content:
         print("CEP Inexistente!")

@@ -24,32 +24,35 @@ class Ui(QtWidgets.QDialog):
         if inputCep == '':
             return
         
-        reqURL = f'https://ws.apicep.com/cep/{inputCep}.json'
+        reqURL = f'https://viacep.com.br/ws/{inputCep}/json/'
         print(reqURL)
 
         response = requests.get(reqURL)
 
-        contentJson = json.loads(response.content)
+        content = response.content
+        statusCode = response.status_code
 
-        status = contentJson["status"]
+        if statusCode == 200:
+            contentJson = json.loads(content)
 
-        if status == 200:
-            cep = contentJson["code"]
-            estado = contentJson["state"]
-            cidade = contentJson["city"]
-            bairro = contentJson["district"]
-            endereco = contentJson["address"]
+            if b'erro' in content:
+                outputText = "CEP Inexistente!"
             
-            
-            outputText = f'CEP: {cep}\n'
-            outputText += f'Endereço: {endereco}\n'
-            outputText += f'Bairro: {bairro}\n'
-            outputText += f'Cidade: {cidade}\n'
-            outputText += f'Estado: {estado}\n'
+            else:
+                cep = contentJson["cep"]
+                estado = contentJson["uf"]
+                cidade = contentJson["localidade"]
+                bairro = contentJson["bairro"]
+                endereco = contentJson["logradouro"]
+                
+                outputText = f'CEP: {cep}\n'
+                outputText += f'Endereço: {endereco}\n'
+                outputText += f'Bairro: {bairro}\n'
+                outputText += f'Cidade: {cidade}\n'
+                outputText += f'Estado: {estado}\n'
 
-        else:
-            mensagem = contentJson["message"]
-            outputText = mensagem 
+        elif statusCode == 400:
+            outputText = "CEP Inválido!" 
         
         self.conteudoTextBrowser.setText(outputText)
 
