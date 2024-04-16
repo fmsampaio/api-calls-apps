@@ -1,57 +1,58 @@
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 
 public class AcessoAPICEP {
-    private String cep, estado, cidade, bairro, endereco, mensagem;
-    private String conteudoJson;
-    private int status;
+    private String cep, estado, cidade, bairro, endereco;
+    private String conteudo;
+    private int codigoStatus;
+    private boolean isCepInvalido, isCepInexistente;
 
-    private final String BASE_CEP_URL = "https://ws.apicep.com/cep/xxxx.json";
+    private final String BASE_CEP_URL = "https://viacep.com.br/ws/xxxx/json/";
 
-    public AcessoAPICEP(String cep) throws IOException, JSONException {
-        acessaAPI(cep);
-        trataJSON();
+    public AcessoAPICEP() {
+        this.conteudo = "";
+        this.codigoStatus = -1;
+        this.isCepInexistente = false;
+        this.isCepInvalido = false;
     }
 
-    private void trataJSON() throws JSONException {
-        JSONObject jsonObj = new JSONObject(this.conteudoJson);
-        this.status = jsonObj.getInt("status");
-        if(this.status == 200) {
-            this.cep = jsonObj.getString("code");
-            this.estado = jsonObj.getString("state");
-            this.cidade = jsonObj.getString("city");
-            this.bairro = jsonObj.getString("district");
-            this.endereco = jsonObj.getString("address");
-        }
-        else {
-            this.mensagem = jsonObj.getString("message");
-        }
-    }
-
-    private void acessaAPI(String cep) throws IOException {
-        URL url = new URL(BASE_CEP_URL.replace("xxxx", cep));
-
-        HttpsURLConnection conexao = (HttpsURLConnection) url.openConnection();
-        conexao.addRequestProperty("Content-Type", "application/json");
-        conexao.addRequestProperty("User-Agent", "Mozilla/4.76");
-
-        BufferedReader entrada = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
-
-        String inputLine;
-        conteudoJson = "";
-        while( (inputLine = entrada.readLine()) != null) {
-            conteudoJson += inputLine;
+    public void trataJSON() throws JSONException {
+        if (codigoStatus == 400) {
+            //System.out.println("CEP Inválido!");
+            this.isCepInvalido = true;
+        } else { //codigoStatus == 200
+            JSONObject jsonObj = new JSONObject(this.conteudo);
+            if (jsonObj.has("erro")) {
+                //System.out.println("CEP inexistente!");
+                this.isCepInexistente = true;
+            } else {
+                this.cep = jsonObj.getString("cep");
+                this.estado = jsonObj.getString("uf");
+                this.cidade = jsonObj.getString("localidade");
+                this.bairro = jsonObj.getString("bairro");
+                this.endereco = jsonObj.getString("logradouro");
+            }
         }
     }
 
-    public String getConteudoJson() {
-        return conteudoJson;
+    public void acessaAPI(String cep) throws UnirestException {
+        String url = BASE_CEP_URL.replace("xxxx", cep);
+
+        HttpResponse<String> response = Unirest.get(url)
+                .header("Content-Type", "application/json")
+                .asString();
+
+        this.codigoStatus = response.getStatus();
+        this.conteudo = response.getBody();
+
+        // Descomentar as próximas linhas para debug
+        //System.out.println(codigoStatus);
+        //System.out.println(conteudo);
     }
 
     public String getCep() {
@@ -74,27 +75,26 @@ public class AcessoAPICEP {
         return endereco;
     }
 
-    public String getMensagem() {
-        return mensagem;
-    }
-
-    public int getStatus() {
-        return status;
+    public int getCodigoStatus() {
+        return codigoStatus;
     }
 
     @Override
     public String toString() {
         String retorno = "";
 
-        if(this.getStatus() == 200) {
+        if(isCepInvalido) {
+            retorno = "CEP Inválido!";
+        }
+        else if(isCepInexistente) {
+            retorno = "CEP Inexistente!";
+        }
+        else { //if(this.getCodigoStatus() == 200) {
             retorno += "CEP: " + this.getCep() + "\n";
             retorno += "Endereço: " + this.getEndereco() + "\n";
             retorno += "Bairro: " + this.getBairro() + "\n";
             retorno += "Município: " + this.getCidade() + "\n";
             retorno += "Estado: " + this.getEstado() + "\n";
-        }
-        else {
-            retorno += this.getMensagem();
         }
 
         return retorno;

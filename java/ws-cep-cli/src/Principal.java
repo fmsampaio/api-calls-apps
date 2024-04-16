@@ -1,4 +1,5 @@
 import org.json.JSONException;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -11,14 +12,17 @@ public class Principal {
             System.out.print("Digite um CEP: ");
             String cep = scan.nextLine();
 
-            AcessoAPICEP apiCep = new AcessoAPICEP(cep);
+            AcessoAPICEP apiCep = new AcessoAPICEP();
+
+            apiCep.acessaAPI(cep);
+            apiCep.trataJSON();
 
             System.out.println("Resultado da consulta:");
             System.out.println(apiCep.toString());
-        }
-        catch (JSONException e) {
+
+        } catch (UnirestException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }

@@ -1,0 +1,20 @@
+<component name="libraryTable">
+  <library name="commons-codec-1.6">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../libs/commons-codec-1.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs/commons-logging-1.1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs/httpasyncclient-4.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs/httpclient-4.3.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs/httpcore-4.3.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs/httpcore-nio-4.3.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs/httpmime-4.3.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs/java-json.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs/json-20140107.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs/unirest-java-1.4.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../libs/java-json.jar!/" />
+    </SOURCES>
+  </library>
+</component>
