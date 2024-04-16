@@ -86,3 +86,6 @@ compile_commands.json
 # Flags for Clang Code Model
 *.cxxflags
 *.cflags
+
+# Java class files
+*.class
