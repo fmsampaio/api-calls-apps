@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import java.util.Scanner;
 
 public class Principal {
-    private static final String BASE_CEP_URL = "https://viacep.com.br/ws/xxxx/json/";
+    private static final String BASE_CEP_URL = "https://viacep.com.br/ws/";
 
     public static void main(String[] args) {
         try {
@@ -26,7 +26,7 @@ public class Principal {
     }
 
     public static void  acessaRotaCEP(String inputCep) throws UnirestException, JSONException {
-        String url = BASE_CEP_URL.replace("xxxx", inputCep);
+        String url = BASE_CEP_URL + inputCep + "/json/";
 
         HttpResponse<String> response = Unirest.get(url)
                 .header("Content-Type", "application/json")
