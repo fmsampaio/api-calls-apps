@@ -24,9 +24,11 @@ if statusCode == 200:
         cidade = resultado["localidade"]
         bairro = resultado["bairro"]
         endereco = resultado["logradouro"]
+        complemento = resultado["complemento"]
         
         print(f'CEP: {cep}')
         print(f'Endereço: {endereco}')
+        print(f'Complemento: {complemento}')
         print(f'Bairro: {bairro}')
         print(f'Cidade: {cidade}')
         print(f'Estado: {estado}')

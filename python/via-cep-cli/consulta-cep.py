@@ -24,9 +24,11 @@ if statusCode == 200:
         cidade = contentJson["localidade"]
         bairro = contentJson["bairro"]
         endereco = contentJson["logradouro"]
+        complemento = contentJson["complemento"]
         
         print(f'CEP: {cep}')
         print(f'Endereço: {endereco}')
+        print(f'Complemento: {complemento}')
         print(f'Bairro: {bairro}')
         print(f'Cidade: {cidade}')
         print(f'Estado: {estado}')
