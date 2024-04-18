@@ -55,9 +55,11 @@ public class Principal {
                 String cidade = jsonObj.getString("localidade");
                 String bairro = jsonObj.getString("bairro");
                 String endereco = jsonObj.getString("logradouro");
+                String complemento = jsonObj.getString("complemento");
 
                 System.out.println("CEP: " + cep);
                 System.out.println("Endereço: " + endereco);
+                System.out.println("Complemento: " + complemento);
                 System.out.println("Bairro: " + bairro);
                 System.out.println("Município: " + cidade);
                 System.out.println("Estado: " + estado);
